@@ -160,6 +160,26 @@ To configure, build and install the project you can run for example:
 This will run `sudo cmake --install`, after configuration and building, and currently installs with prefix /usr/local.
 Please use cmake directly if you need a different prefix.
 
+The installed package exports `versor::vsr` (static) and `versor::vsr_shared`
+(shared) targets, including the selected precision as a usage requirement:
+
+```cmake
+find_package(versor 0.2.0 CONFIG REQUIRED)
+
+add_executable(app main.cpp)
+target_link_libraries(app PRIVATE versor::vsr)
+```
+
+The same targets are available when the source tree is added directly:
+
+```cmake
+add_subdirectory(versor)
+target_link_libraries(app PRIVATE versor::vsr)
+```
+
+Use `./build.sh --float` for float precision; the exported targets then define
+`VSR_PRECISION_FLOAT` for consumers.
+
 Use Cases
 ---
 

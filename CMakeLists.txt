@@ -2,7 +2,7 @@
 #github.com/wolftype/versor.git
 
 #cmake version
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 
 #PROJECT
 project(versor
@@ -176,7 +176,7 @@ foreach(filename ${tests})
   get_filename_component(target ${filename} NAME_WE)
   add_executable(${target} ${filename} )
   target_link_libraries(${target} gtest_main)
-  target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/include)
+  target_include_directories(${target} PRIVATE ${PROJECT_SOURCE_DIR}/include)
   add_test (NAME ${target}_test COMMAND ${target})
 endforeach()
 
@@ -317,8 +317,11 @@ foreach(lib ${_install_targets})
   message(STATUS "libraries='${lib}'")
 endforeach()
 
-# Install everything from include/.
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# Install everything from include/, excluding Finder metadata.
+install(DIRECTORY include/
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  PATTERN ".DS_Store" EXCLUDE
+)
 
 # Export targets for install-tree.
 install(EXPORT versorTargets

@@ -53,6 +53,8 @@ do
       echo "  -q, --quiet        turn verbose build off."
       echo "  -u, --update       update git submodules before building."
       echo "  -x, --examples     build the examples."
+      echo "  -f, --float        build with float instead of double precision."
+      echo "      --no-legacy    do not export legacy VSR_* CMake globals."
       exit 0
       ;;
 
