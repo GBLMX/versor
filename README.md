@@ -114,7 +114,7 @@ At C++ Now in Aspen I gave [a Presentation on Metaprogramming Implementation Det
 COMPILATION
 ---
 
-For this version you need C++11 support, which is now common (gcc 4.7 or higher or clang 3.2 or higher) and for graphics support you'll want glew.
+For this version you need C++26 support (GCC 16+ or Clang 21+) and CMake 3.30+. For graphics support you'll want glew.
 See the [Troubleshooting](#TROUBLESHOOTING) section below for instructions on installing glew.
 
 	git clone https://github.com/wolftype/versor.git
@@ -179,6 +179,53 @@ target_link_libraries(app PRIVATE versor::vsr)
 
 Use `./build.sh --float` for float precision; the exported targets then define
 `VSR_PRECISION_FLOAT` for consumers.
+
+C++26 RUNTIME API
+---
+
+The compile-time `vsr::algebra` types remain available, and the library now
+also provides a runtime, allocation-friendly C++ port of the
+[versor-java](https://github.com/GBLMX/versor-java) API under
+`vsr::runtime`. It supports arbitrary `Cl(p,q,r)` signatures with up to 14
+generators, dense/sparse multivectors, batches, multivector matrices, PGA3,
+CGA3, kinematics, and numerical geometric calculus.
+
+```cpp
+#include <vsr/runtime.hpp>
+#include <iostream>
+#include <numbers>
+
+int main() {
+    using namespace vsr::runtime;
+
+    auto rotor = E3::rotor(0, 0, 1, std::numbers::pi / 2);
+    auto image = E3::rotate(E3::vec(1, 0, 0), rotor);
+    std::cout << image << "\n"; // e2
+
+    auto p = P3::point(1, 2, 3);
+    auto motor = P3::motor(P3::rotor(0, 0, 1, std::numbers::pi / 2),
+                           P3::translator(1, 2, 3));
+    auto moved = P3::point_coords(P3::apply(motor, p));
+    std::cout << moved[0] << ' ' << moved[1] << ' ' << moved[2] << "\n";
+
+    auto rotor_mid = Gen::slerp(E3::rotor(0, 0, 1, 0), rotor, 0.5);
+    (void)rotor_mid;
+}
+```
+
+The main entry points are `Signature`, `Multivector`, `E3`, `Gen`, `P3`,
+`Conformal`, `Motion`, `Field`, `Calculus`, `Manifold`, `SparseMultivector`,
+`MultivectorBatch`, and `MultivectorMatrix`. Operations follow the same
+conventions as versor-java: ascending blade masks, Poincare `dual()`/`undual()`,
+PGA3 `e0` first, and CGA3 `n0 = (e5 - e4)/2`, `ninf = e4 + e5`.
+
+Performance-oriented C++ choices in the runtime layer:
+
+- signatures share one immutable metric/sign/dual/square table via `shared_ptr`; copying a multivector does not copy the tables;
+- `gp_accumulate` accepts `std::span<double>` so batch and matrix kernels write into existing storage;
+- sparse products switch between an open-addressing accumulator and a dense accumulator based on support size;
+- batches use structure-of-arrays storage, a stack `std::bitset` for active blades, and unrolled E3/PGA sandwich paths;
+- matrix multiplication uses one flat coefficient accumulator, and matrix inversion uses the O(n^2) versor inverse when a pivot is a versor.
 
 Use Cases
 ---

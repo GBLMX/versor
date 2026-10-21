@@ -2,7 +2,7 @@
 #github.com/wolftype/versor.git
 
 #cmake version
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.30)
 
 #PROJECT
 project(versor
@@ -38,7 +38,7 @@ set(BUILD_EXAMPLES OFF CACHE BOOL "build examples")
 
 set(USE_DOUBLE_PRECISION ON CACHE BOOL "double precision")
 
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
 
@@ -107,6 +107,7 @@ foreach(target ${_install_targets})
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>
   )
+  target_compile_features(${target} PUBLIC cxx_std_26)
   # Propagate the selected precision as a compile definition to dependents.
   if (USE_DOUBLE_PRECISION)
     target_compile_definitions(${target} PUBLIC VSR_PRECISION_DOUBLE)
