@@ -444,8 +444,8 @@ public:
         return sandwich(versor, out);
     }
 
-    [[nodiscard]] MultivectorBatch sandwich(const Multivector& versor,
-                                             MultivectorBatch& out) const;
+    [[nodiscard]] MultivectorBatch& sandwich(const Multivector& versor,
+                                              MultivectorBatch& out) const;
     [[nodiscard]] MultivectorBatch op(const Multivector& left) const {
         return product(left, true, true);
     }
@@ -768,8 +768,8 @@ private:
     }
 };
 
-inline MultivectorBatch MultivectorBatch::sandwich(const Multivector& versor,
-                                                   MultivectorBatch& out) const {
+inline MultivectorBatch& MultivectorBatch::sandwich(const Multivector& versor,
+                                                    MultivectorBatch& out) const {
     check_signature(versor);
     if (out.sig_ != sig_ || out.count_ != count_) {
         throw std::invalid_argument("batch shape mismatch");

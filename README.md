@@ -225,7 +225,7 @@ Performance-oriented C++ choices in the runtime layer:
 - `gp_accumulate` accepts `std::span<double>` so batch and matrix kernels write into existing storage;
 - sparse products switch between an open-addressing accumulator and a dense accumulator based on support size;
 - batches use structure-of-arrays storage, a stack `std::bitset` for active blades, and unrolled E3/PGA sandwich paths;
-- matrix multiplication uses one flat coefficient accumulator, and matrix inversion uses the O(n^2) versor inverse when a pivot is a versor.
+- matrix multiplication uses one flat coefficient accumulator, and matrix inversion uses the O(N²) coefficient-space versor inverse when a pivot is a versor.
 
 Use Cases
 ---
