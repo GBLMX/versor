@@ -255,7 +255,7 @@ struct REGProd{
  *-----------------------------------------------------------------------------*/
 template<bits::type A, class B, class Metric, int idxA, int idxB>
 struct SubMGP{
-  static const int MVAL = MSign< Metric, A & B::HEAD, bits::signFlip(A , B::HEAD) ? -1 : 1 >::Val;
+  static constexpr int MVAL = MSign< Metric, A & B::HEAD, bits::signFlip(A , B::HEAD) ? -1 : 1 >::Val;
   typedef Inst< MVAL, A, B::HEAD, idxA, idxB> INST;
   typedef typename Maybe< INST::GP, XList< INST >, XList<> >::Type ELEM;
   typedef typename XCat< ELEM, typename SubMGP<A, typename B::TAIL, Metric, idxA, idxB+1>::Type >::Type Type;
@@ -281,7 +281,7 @@ struct MGP<Basis<>,B, Metric, idxA,idxB> {
 
 template<bits::type A, class B, class Metric, int idxA, int idxB>
 struct SubMOP{
-  static const int MVAL = MSign< Metric, A & B::HEAD, bits::signFlip(A , B::HEAD) ? -1 : 1 >::Val;
+  static constexpr int MVAL = MSign< Metric, A & B::HEAD, bits::signFlip(A , B::HEAD) ? -1 : 1 >::Val;
   typedef Inst< MVAL, A, B::HEAD, idxA, idxB> INST;
   typedef typename Maybe< INST::OP, XList< INST >, XList<> >::Type ELEM;
   typedef typename XCat< ELEM, typename SubMOP<A, typename B::TAIL, Metric, idxA, idxB+1>::Type >::Type Type;
@@ -307,7 +307,7 @@ struct MOP<Basis<>,B, Metric,idxA,idxB> {
 
 template<bits::type A, class B,  class Metric, int idxA, int idxB>
 struct SubMIP{
-  static const int MVAL = MSign< Metric, A & B::HEAD, bits::signFlip(A , B::HEAD) ? -1 : 1 >::Val;
+  static constexpr int MVAL = MSign< Metric, A & B::HEAD, bits::signFlip(A , B::HEAD) ? -1 : 1 >::Val;
   typedef Inst< MVAL, A, B::HEAD, idxA, idxB> INST;
   typedef typename Maybe< INST::IP, XList< INST >, XList<> >::Type ELEM;
   typedef typename XCat< ELEM, typename SubMIP<A, typename B::TAIL, Metric, idxA, idxB+1>::Type >::Type Type;
@@ -332,7 +332,7 @@ struct MIP<Basis<>,B, Metric, idxA,idxB> {
 
 template<bits::type A, class B,  class Metric, int idxA, int idxB>
 struct SubMSP{
-  static const int MVAL = MSign< Metric, A & B::HEAD, bits::signFlip(A , B::HEAD) ? -1 : 1 >::Val;
+  static constexpr int MVAL = MSign< Metric, A & B::HEAD, bits::signFlip(A , B::HEAD) ? -1 : 1 >::Val;
   typedef Inst< MVAL, A, B::HEAD, idxA, idxB> INST;
   typedef typename Maybe< INST::SP, XList< INST >, XList<> >::Type ELEM;
   typedef typename XCat< ELEM, typename SubMSP<A, typename B::TAIL, Metric, idxA, idxB+1>::Type >::Type Type;

@@ -59,7 +59,7 @@ namespace vsr{
       using algebra = algebra_type;                       ///< \ref algebra (a metric and field)
       using basis = basis_type;                           ///< basis is an algebraic data type created with compile-time list processing
 
-      static const int Num = basis::Num;                  ///< number of bases
+      static constexpr int Num = basis::Num;                  ///< number of bases
 
       using value_t = typename algebra::value_t;          ///< the field over which the algebra is defined (e.g. float or double)
       using space =   typename algebra::types;            ///< @ingroup typesystem call <MultivectorType>::space::<MultivectorName> to declare another named Type within the same algebra

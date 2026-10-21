@@ -105,7 +105,7 @@ namespace vsr {
 
         using value_t = value_type;                             ///<-- Field over which Algebra is Defined (e.g. float, double, complex)
 
-        static const int dim = metric::type::Num;               ///<-- Dimension of Algebra (2,3,4,5,etc)
+        static constexpr int dim = metric::type::Num;               ///<-- Dimension of Algebra (2,3,4,5,etc)
 
         /// a multivector is a monadic structure that wraps a basis with a bilinear quadratic form
         template <class B> using mv_t = Multivector<algebra<metric, value_t>, B>;
@@ -271,7 +271,7 @@ namespace vsr {
    template<typename Algebra>
    struct algebra_impl<Algebra,true, false>  {
 
-     //  static const bits::type dim = Algebra::dim;
+     //  static constexpr bits::type dim = Algebra::dim;
 
        template <class A, class B> using  gp_arrow_t = EGProd<A,B>;
        template <class A, class B> using  op_arrow_t = EOProd<A,B>;
@@ -291,7 +291,7 @@ namespace vsr {
    struct algebra_impl<Algebra,false, false>  {
        using algebra = Algebra;
        using metric_type = typename Algebra::metric::type;
-      // static const bits::type dim = Algebra::dim;
+      // static constexpr bits::type dim = Algebra::dim;
 
        template <class A, class B> using  gp_arrow_t = MGProd<A, B, metric_type>;
        template <class A, class B> using  op_arrow_t = MOProd<A, B, metric_type>;
@@ -309,7 +309,7 @@ namespace vsr {
    struct algebra_impl<Algebra,false, true>  {
 
        using metric_type = typename Algebra::metric::type;
-    //   static const bits::type dim = Algebra::dim;
+    //   static constexpr bits::type dim = Algebra::dim;
 
        template <class A, class B> using  gp_arrow_t = CGProd<A, B, metric_type>;
        template <class A, class B> using  op_arrow_t = COProd<A, B, metric_type>;

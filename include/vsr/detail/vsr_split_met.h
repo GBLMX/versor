@@ -34,8 +34,8 @@ namespace vsr{
 
 template<bits::type X, int S>
 struct Blade{
-	static const bits::type BIT = X;
-	static const int SIGN = S;  
+	static constexpr bits::type BIT = X;
+	static constexpr int SIGN = S;
 	
 	static void print() {
 		printf("%f\t",1.0/S); bits::bsprint(X); 
@@ -66,7 +66,7 @@ struct PopMink{
 //takes two split blade lists and multiplies them, returns a xlist of Blades 
 template <class A, class B, class M>
 struct SubSplitGP{                                                                      
-	static const int Met = MSign< M, A::BIT & B::HEAD::BIT, bits::signFlip(A::BIT , B::HEAD::BIT) ? -1 : 1 >::Val;  
+	static constexpr int Met = MSign< M, A::BIT & B::HEAD::BIT, bits::signFlip(A::BIT , B::HEAD::BIT) ? -1 : 1 >::Val;
 	 	
 	typedef Blade<  A::BIT ^ B::HEAD::BIT, Met * A::SIGN * B::HEAD::SIGN > One;    
 	typedef typename XCat< XList<One> , typename SubSplitGP<A, typename B::TAIL, M>::Type >::Type Type;  
@@ -88,7 +88,7 @@ struct SplitGP< XList<>, B, M>{
 
 template <class A, class B, class M>
 struct SubSplitOP{                                                                      
-	static const int Met = MSign< M, A::BIT & B::HEAD::BIT, bits::signFlip(A::BIT , B::HEAD::BIT) ? -1 : 1 >::Val;   	
+	static constexpr int Met = MSign< M, A::BIT & B::HEAD::BIT, bits::signFlip(A::BIT , B::HEAD::BIT) ? -1 : 1 >::Val;
 	typedef Blade<  A::BIT ^ B::HEAD::BIT, Met * A::SIGN * B::HEAD::SIGN > One;    
 	typedef typename XCat< 
 		 typename Maybe< bits::outer( A::BIT, B::HEAD::BIT), 
@@ -114,7 +114,7 @@ struct SplitOP< XList<>, B, M>{
 
 template <class A, class B, class M>
 struct SubSplitIP{                                                                      
-	static const int Met = MSign< M, A::BIT & B::HEAD::BIT, bits::signFlip(A::BIT , B::HEAD::BIT) ? -1 : 1 >::Val;   	
+	static constexpr int Met = MSign< M, A::BIT & B::HEAD::BIT, bits::signFlip(A::BIT , B::HEAD::BIT) ? -1 : 1 >::Val;
 	typedef Blade<  A::BIT ^ B::HEAD::BIT, Met * A::SIGN * B::HEAD::SIGN > One;    
 	typedef typename XCat< 
 		 typename Maybe< bits::inner( A::BIT, B::HEAD::BIT), 
@@ -139,7 +139,7 @@ struct SplitIP< XList<>, B, M>{
 
 template <class A, class B, class M>
 struct SubSplitSP{                                                                      
-	static const int Met = MSign< M, A::BIT & B::HEAD::BIT, bits::signFlip(A::BIT , B::HEAD::BIT) ? -1 : 1 >::Val;   	
+	static constexpr int Met = MSign< M, A::BIT & B::HEAD::BIT, bits::signFlip(A::BIT , B::HEAD::BIT) ? -1 : 1 >::Val;
 	typedef Blade<  A::BIT ^ B::HEAD::BIT, Met * A::SIGN * B::HEAD::SIGN > One;    
 	typedef typename XCat< 
 		 typename Maybe< bits::scalar( A::BIT, B::HEAD::BIT), 
@@ -232,12 +232,12 @@ template<class P >
 struct Compress{ 
 	//SCA PNum = P::Num;
 	typedef typename CompressIt<P, P::Num>::Type Type;   
-	//static constexpr Type Call() { return Type(); }   
+	//static constexpr Type Call() { return Type(); }
 }; 
 template<>
 struct Compress< XList<> > { 
 	typedef XList<> Type;   
-	//static constexpr Type Call() { return Type(); }   
+	//static constexpr Type Call() { return Type(); }
 };  
 
 template<class S>
@@ -258,7 +258,7 @@ struct EliminateZeros<XList<>>{
 //get split product back
 template <bits::type A, bits::type B, class M>
 struct SplitProd{ 
-	static const int DIM = M::Num;                   
+	static constexpr int DIM = M::Num;
 	//typedef typename RMetric<DIM-1,1>::Type M;
 	typedef typename PushMink<A, DIM>::Type TA;
 	typedef typename PushMink<B, DIM>::Type TB;
@@ -270,7 +270,7 @@ struct SplitProd{
 
 template <bits::type A, bits::type B, class M>
 struct SplitIProd{   
-	static const int DIM = M::Num;
+	static constexpr int DIM = M::Num;
     //typedef typename RMetric<DIM-1,1>::Type M; 
 	typedef typename PushMink<A, DIM>::Type TA;
 	typedef typename PushMink<B, DIM>::Type TB;
@@ -282,7 +282,7 @@ struct SplitIProd{
 
 template <bits::type A, bits::type B, class M>
 struct SplitSProd{   
-	static const int DIM = M::Num;
+	static constexpr int DIM = M::Num;
 	typedef typename PushMink<A, DIM>::Type TA;
 	typedef typename PushMink<B, DIM>::Type TB;
 	typedef typename SplitSP< TA, TB, M >::Type P1; 
@@ -293,7 +293,7 @@ struct SplitSProd{
 
 template <bits::type A, bits::type B, class M>
 struct SplitOProd{  
-	static const int DIM = M::Num;
+	static constexpr int DIM = M::Num;
     //typedef typename RMetric<DIM-1,1>::Type M; 
 	typedef typename PushMink<A, DIM>::Type TA;
 	typedef typename PushMink<B, DIM>::Type TB;

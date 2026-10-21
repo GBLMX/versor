@@ -30,20 +30,12 @@ namespace vsr{
  *-----------------------------------------------------------------------------*/
 template<bits::type A, bits::type B>
 struct product {
-  static const bits::type result = A ^ B;
-  static const bool is_positive = !bits::signFlip(A,B);
-  static const bool has_inner = bits::inner(A,B);
-  static const bool has_outer = bits::outer(A,B);
+  static constexpr bits::type result = A ^ B;
+  static constexpr bool is_positive = !bits::signFlip(A,B);
+  static constexpr bool has_inner = bits::inner(A,B);
+  static constexpr bool has_outer = bits::outer(A,B);
 };
 
-template<bits::type A, bits::type B> const bool
-product<A,B>::is_positive;
-
-template<bits::type A, bits::type B> const bool
-product<A,B>::has_inner;
-
-template<bits::type A, bits::type B> const bool
-product<A,B>::has_outer;
 /*-----------------------------------------------------------------------------
  *  use of product to calculate value (unused)
  *-----------------------------------------------------------------------------*/
@@ -84,7 +76,7 @@ struct unary_function_token {
  *-----------------------------------------------------------------------------*/
 template<bool Flip, int IDXA, int IDXB>
 struct Instruction{
-  static const int Sign = Flip ? -1 : 1;
+  static constexpr int Sign = Flip ? -1 : 1;
 
   template<class TA, class TB>
   static constexpr typename TA::algebra::value_t Exec( const TA& a, const TB& b){
@@ -99,17 +91,17 @@ struct Instruction{
 
 template<int F, bits::type A, bits::type B, int IDXA, int IDXB>
 struct Inst{
-  static const int METRIC = F;
+  static constexpr int METRIC = F;
 
-  static const bits::type Res = A ^ B;
+  static constexpr bits::type Res = A ^ B;
   //Whether Left Contraction Product Exists
-  static const bool IP = bits::inner(A,B);
+  static constexpr bool IP = bits::inner(A,B);
   //Whether Outer Product Exists
-  static const bool OP = bits::outer(A,B);
+  static constexpr bool OP = bits::outer(A,B);
   //Whether Scalar Product Exists
-  static const bool SP = bits::scalar(A,B);
+  static constexpr bool SP = bits::scalar(A,B);
   //Whether Geometric Product Exists
-  static const bool GP = true;
+  static constexpr bool GP = true;
 
   template<class TA, class TB>
   static constexpr typename TA::algebra::value_t Exec( const TA& a, const TB& b){
@@ -123,17 +115,17 @@ struct Inst{
 
 template<bits::type A, bits::type B, int IDXA, int IDXB>
 struct Inst<-1, A,B,IDXA,IDXB>{
-  static const int METRIC = -1;
+  static constexpr int METRIC = -1;
 
-  static const bits::type Res = A ^ B;
+  static constexpr bits::type Res = A ^ B;
   //Whether Left Contraction Product Exists
-  static const bool IP = bits::inner(A,B);
+  static constexpr bool IP = bits::inner(A,B);
   //Whether Outer Product Exists
-  static const bool OP = bits::outer(A,B);
+  static constexpr bool OP = bits::outer(A,B);
   //Whether Scalar Product Exists
-  static const bool SP = bits::scalar(A,B);
+  static constexpr bool SP = bits::scalar(A,B);
   //Whether Geometric Product Exists
-  static const bool GP = true;
+  static constexpr bool GP = true;
 
   template<class TA, class TB>
   static constexpr typename TA::algebra::value_t Exec( const TA& a, const TB& b){
@@ -147,17 +139,17 @@ struct Inst<-1, A,B,IDXA,IDXB>{
 
 template<bits::type A, bits::type B, int IDXA, int IDXB>
 struct Inst<0, A,B,IDXA,IDXB>{
-  static const int METRIC = 0;
+  static constexpr int METRIC = 0;
 
-  static const bits::type Res = A ^ B;
+  static constexpr bits::type Res = A ^ B;
   //Whether Left Contraction Product Exists
-  static const bool IP = false;
+  static constexpr bool IP = false;
   //Whether Outer Product Exists
-  static const bool OP = false;
+  static constexpr bool OP = false;
   //Whether Scalar Product Exists
-  static const bool SP = false;
+  static constexpr bool SP = false;
   //Whether Geometric Product Exists
-  static const bool GP = false;
+  static constexpr bool GP = false;
 
   // Never called or used . . .
   template<class TA, class TB>
@@ -174,10 +166,10 @@ struct Inst<0, A,B,IDXA,IDXB>{
 //unused?
 template<bool F, bits::type R, int IDXA, int IDXB>
 struct Instruct{
-  static const bool Flip = false;
-  static const bits::type Res = R;
-  static const int idxA = IDXA;
-  static const int idxB = IDXB;
+  static constexpr bool Flip = false;
+  static constexpr bits::type Res = R;
+  static constexpr int idxA = IDXA;
+  static constexpr int idxB = IDXB;
 
   template<class TA, class TB>
   static constexpr typename TA::algebra::value_t Exec( const TA& a, const TB& b){
@@ -188,24 +180,12 @@ struct Instruct{
   }
 };
 
-template<bool F, bits::type R, int IDXA, int IDXB>
-const bool Instruct<F,R,IDXA,IDXB>::Flip;
-
-template<bool F, bits::type R, int IDXA, int IDXB>
-const bits::type Instruct<F,R,IDXA,IDXB>::Res;
-
-template<bool F, bits::type R, int IDXA, int IDXB>
-const int Instruct<F,R,IDXA,IDXB>::idxA;
-
-template<bool F, bits::type R, int IDXA, int IDXB>
-const int Instruct<F,R,IDXA,IDXB>::idxB;
-
 template< bits::type R, int IDXA, int IDXB>
 struct Instruct<true, R, IDXA, IDXB>{
-  static const bool Flip = true;
-  static const bits::type Res = R;
-  static const int idxA = IDXA;
-  static const int idxB = IDXB;
+  static constexpr bool Flip = true;
+  static constexpr bits::type Res = R;
+  static constexpr int idxA = IDXA;
+  static constexpr int idxB = IDXB;
 
   template<class TA, class TB>
   static constexpr typename TA::algebra::value_t Exec( const TA& a, const TB& b){
@@ -216,18 +196,6 @@ struct Instruct<true, R, IDXA, IDXB>{
   }
 };
 
-
-template< bits::type R, int IDXA, int IDXB>
-const bool Instruct<true,R,IDXA,IDXB>::Flip;
-
-template< bits::type R, int IDXA, int IDXB>
-const bits::type Instruct<true,R,IDXA,IDXB>::Res;
-
-template< bits::type R, int IDXA, int IDXB>
-const int Instruct<true,R,IDXA,IDXB>::idxA;
-
-template< bits::type R, int IDXA, int IDXB>
-const int Instruct<true,R,IDXA,IDXB>::idxB;
 
 /*-----------------------------------------------------------------------------
  *  Single Token of a Sign Flip Instruction

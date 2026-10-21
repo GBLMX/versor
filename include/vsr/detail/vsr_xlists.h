@@ -60,13 +60,9 @@ namespace vsr{ //detail?
 template<bits::type ... XS>
 struct Basis{
   constexpr Basis(){}
-  static const int Num = 0;
+  static constexpr int Num = 0;
   static void print(){ printf("\n");}
 };
-
-// -> prevents undefines on linux
-template<bits::type ... XS>
-const int Basis<XS...>::Num;
 
 /*-----------------------------------------------------------------------------
  *  TYPE COMBINATORICS ONLY (NO STORAGE)
@@ -75,20 +71,13 @@ template<bits::type X, bits::type ... XS>
 struct Basis<X, XS...>{
 
   constexpr Basis(){}
-  static const int Num = sizeof...(XS) +1;
-  static const bits::type HEAD = X;
+  static constexpr int Num = sizeof...(XS) +1;
+  static constexpr bits::type HEAD = X;
 
   typedef Basis<XS...> TAIL;
 
   static void print() { printf("%s\t%s\t%d\n", bits::estring(X).c_str(), bits::bitString<6>(X).c_str(), X);  TAIL::print(); }
 };
-
-// -> prevents undefines on linux
-template<bits::type X, bits::type ... XS>
-const bits::type Basis<X,XS...>::HEAD;
-
-template<bits::type X, bits::type ... XS>
-const int Basis<X, XS...>::Num;
 
 /*-----------------------------------------------------------------------------
  *  CONCATENATE
@@ -254,7 +243,7 @@ struct InsertImpl<true>{
 
 template<int A, class B>
 struct Insert{
-  static const int Switch = InsertIdxOf<A,B>::Call();
+  static constexpr int Switch = InsertIdxOf<A,B>::Call();
   using Type = typename InsertImpl< Switch == -1 >::template Result<A,Switch,B>;
 };
 
@@ -280,7 +269,7 @@ struct ICat< Basis<>, B>{
 //Return Sub B not in A
 template<class A, class B>
 struct NotType{
-  static const int IS = find( B::HEAD, A() );
+  static constexpr int IS = find( B::HEAD, A() );
   typedef typename Cat<
     typename Maybe< IS == -1,
       Basis< B::HEAD > ,
@@ -419,9 +408,9 @@ struct metric{
   ///Conformal Mapping (assuming euclidean)
   using conformal = metric<P+1,1,0,true>;
 
-  static const bool is_euclidean = Q==0 && R==0;       //whether to use Euclidean Products
-  static const bool is_degenerate = R!=0;              //whether Zero is in the metric
-  static const bool is_conformal = bConformal;         //whether to project metric stereographically
+  static constexpr bool is_euclidean = Q==0 && R==0;       //whether to use Euclidean Products
+  static constexpr bool is_degenerate = R!=0;              //whether Zero is in the metric
+  static constexpr bool is_conformal = bConformal;         //whether to project metric stereographically
 };
 
 
@@ -432,8 +421,8 @@ template< class M, typename T>
 struct QSpace{
   typedef typename M::Type Type;
   typedef T ValueType;
-  static const bool Euclidean = M::Euclidean;
-  static const bool Conformal = M::Conformal;
+  static constexpr bool Euclidean = M::Euclidean;
+  static constexpr bool Conformal = M::Conformal;
 };
 
 
