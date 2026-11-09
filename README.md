@@ -227,6 +227,29 @@ Performance-oriented C++ choices in the runtime layer:
 - batches use structure-of-arrays storage, a stack `std::bitset` for active blades, and unrolled E3/PGA sandwich paths;
 - matrix multiplication uses one flat coefficient accumulator, and matrix inversion uses the O(N²) coefficient-space versor inverse when a pivot is a versor.
 
+PYTHON BINDING
+---
+
+`bindings/python/` contains a minimal PyBind11 binding for the runtime layer.
+It exposes `Signature`, `Multivector`, E3/P3 helpers, and a NumPy batch rotation
+path. Build it against the exact Python ABI of the host (Blender's bundled
+Python on this machine is 3.14):
+
+```bash
+cd bindings/python
+cmake -S . -B build \
+  -Dpybind11_DIR="$(python3 -m pybind11 --cmakedir)" \
+  -DPython_EXECUTABLE=/usr/bin/python3
+cmake --build build -j 8
+PYTHONPATH=build python3 test_binding.py
+```
+
+The binding is a data boundary only: convert GA values to flat arrays,
+quaternions, or matrices before handing them to Blender. See
+[`bindings/python/README.md`](bindings/python/README.md). A Blender scene
+example is in
+[`bindings/python/examples/blackhole_3d.py`](bindings/python/examples/blackhole_3d.py).
+
 Use Cases
 ---
 
